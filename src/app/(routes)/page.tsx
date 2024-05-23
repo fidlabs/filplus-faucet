@@ -3,19 +3,38 @@
 import { Card } from "@/components/ui/card";
 import KycApproval from "@/components/ui/kycApproval";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useSignTypedData, useAccount } from "wagmi";
 
 export default function Home() {
-  const { address, isConnecting, isDisconnected, isConnected } = useAccount();
-  console.log(address);
+  const { isConnected } = useAccount();
+  const [kycParams, setKycParams] = useState({ clientId: "", repoName: "", repoOwner: "" });
+  const router = useRouter();
+  const { query } = router;
+
+  useEffect(() => {
+    if (query.clientId && query.repoName && query.repoOwner) {
+      setKycParams({
+        clientId: Array.isArray(query.clientId) ? query.clientId[0] : query.clientId,
+        repoName: Array.isArray(query.repoName) ? query.repoName[0] : query.repoName,
+        repoOwner: Array.isArray(query.repoOwner) ? query.repoOwner[0] : query.repoOwner
+      });
+    }
+  }, [query.clientId, query.repoName, query.repoOwner]);
+
   return (
     <>
       <Card className="p-2 flex justify-end">
         <ConnectButton showBalance={false} />
       </Card>
-      {/* fixme: replace mocked */}
-      <KycApproval isConnected={isConnected} clientId="test" repoName="test" repoOwner="test" version="1" />
+      <KycApproval
+        isConnected={isConnected}
+        clientId={kycParams.clientId}
+        repoName={kycParams.repoName}
+        repoOwner={kycParams.repoOwner}
+        version="1"
+      />
       <main className="flex flex-col items-center justify-between p-24">
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">User Information</h1>
