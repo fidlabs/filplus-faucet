@@ -1,7 +1,7 @@
 import { env } from "@/env";
-import { Epi712Props } from "@/types/eip712Types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { zeroAddress } from "viem";
 
 const MESSAGE_TEXT = "Connect your Fil+ application with your wallet and give access to your Gitcoin passport";
 const DOMAIN_NAME = "Fil+ KYC";
@@ -30,7 +30,7 @@ export function createDomain(chainId?: number, version?: string) {
   return {
     name: DOMAIN_NAME,
     chainId: chainId || env.NEXT_PUBLIC_CHAIN_ID,
-    verifyingContract: env.NEXT_PUBLIC_VERIFYING_CONTRACT_ADDRESS,
+    verifyingContract: zeroAddress,
     version: version || "1"
   };
 }

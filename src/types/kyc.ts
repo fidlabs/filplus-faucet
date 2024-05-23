@@ -1,4 +1,4 @@
-export interface Epi712Props {
+export interface KycProps {
   isConnected: boolean;
   repoName: string;
   repoOwner: string;

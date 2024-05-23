@@ -1,12 +1,12 @@
 import { useSignTypedData } from "wagmi";
 import { Button } from "./button";
-import { Epi712Props } from "@/types/eip712Types";
 import { useApi } from "@/hooks";
 import { useEffect } from "react";
 import { env } from "@/env";
 import { PRIMARY_TYPE, createApprovalTypes, createDomain, createMessage } from "@/lib/utils";
+import { KycProps } from "@/types/kyc";
 
-export default function KycApproval({ isConnected, chainId, clientId, repoName, repoOwner, version }: Epi712Props) {
+export default function KycApproval({ isConnected, chainId, clientId, repoName, repoOwner, version }: KycProps) {
   const showButton = isConnected && repoName && clientId && repoOwner;
   const { signTypedData, data } = useSignTypedData();
   const { apiPost } = useApi();

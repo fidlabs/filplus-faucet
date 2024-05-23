@@ -15,7 +15,7 @@ export default function Home() {
         <ConnectButton showBalance={false} />
       </Card>
       {/* fixme: replace mocked */}
-      <KycApproval isConnected={isConnected} clientId="test" repoName="test" repoOwner="test" chainId={1} version="1" />
+      <KycApproval isConnected={isConnected} clientId="test" repoName="test" repoOwner="test" version="1" />
       <main className="flex flex-col items-center justify-between p-24">
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">User Information</h1>
