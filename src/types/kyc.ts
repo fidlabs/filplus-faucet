@@ -21,6 +21,5 @@ export interface PassportScore {
 export interface ValidatePassportScoreProps {
   chain?: Chain;
   address?: Address;
-  onError: (message: string) => void;
   onScoreChange: (score: number) => void;
 }

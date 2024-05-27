@@ -79,9 +79,7 @@ export default function Home() {
               " to Optimism network
             </li>
           </ul>
-          {isConnected && isClient ? (
-            <ValidatePassportScore address={address} chain={chain} onError={handleError} onScoreChange={setScore} />
-          ) : null}
+          {isConnected && isClient && <ValidatePassportScore address={address} chain={chain} onScoreChange={setScore} />}
         </div>
         {score > 30 && (
           <KycApproval

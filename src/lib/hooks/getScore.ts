@@ -2,7 +2,7 @@ import { abi } from "@/blockchain/abi";
 import { env } from "@/env";
 import { ValidatePassportScoreProps } from "@/types/kyc";
 import { useEffect, useState } from "react";
-import { getAddress, zeroAddress } from "viem";
+import { getAddress } from "viem";
 import { useReadContract } from "wagmi";
 
 export default function useGetScore({ address, chain }: ValidatePassportScoreProps) {
@@ -21,7 +21,7 @@ export default function useGetScore({ address, chain }: ValidatePassportScorePro
     }
   }, [data]);
 
-  if (error) return { score: "0", error };
+  if (error) return { score: "0" };
 
-  return { score, error };
+  return { score };
 }
