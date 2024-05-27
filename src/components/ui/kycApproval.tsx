@@ -6,7 +6,7 @@ import { env } from "@/env";
 import { PRIMARY_TYPE, createApprovalTypes, createDomain, createMessage } from "@/lib/utils";
 import { KycProps } from "@/types/kyc";
 
-export default function KycApproval({ isConnected, chainId, clientId, repoName, repoOwner, version }: KycProps) {
+export default function KycApproval({ isConnected, chainId, clientId, repoName, repoOwner, version, onError }: KycProps) {
   const showButton = isConnected && repoName && clientId && repoOwner;
   const { signTypedData, data } = useSignTypedData();
   const { apiPost } = useApi();
@@ -16,17 +16,21 @@ export default function KycApproval({ isConnected, chainId, clientId, repoName, 
   const approvalTypes = createApprovalTypes();
 
   useEffect(() => {
-    if (data) {
-      try {
-        apiPost(`${env.NEXT_PUBLIC_BACKEND_API_URL}/application/submit_kyc`, {
-          message,
-          signature: data
-        });
-      } catch (e) {
-        //todo: toast or error handling
-        console.error(e);
+    const submitKyc = async () => {
+      if (data) {
+        try {
+          await apiPost(`${env.NEXT_PUBLIC_BACKEND_API_URL}/application/submit_kyc`, {
+            message,
+            signature: data
+          });
+        } catch (e) {
+          onError("Failed to submit KYC");
+          console.error(e);
+        }
       }
-    }
+    };
+
+    submitKyc();
   }, [data]);
 
   return (
@@ -42,7 +46,7 @@ export default function KycApproval({ isConnected, chainId, clientId, repoName, 
           })
         }
       >
-        Sign message
+        Share and submit passport
       </Button>
     )
   );
