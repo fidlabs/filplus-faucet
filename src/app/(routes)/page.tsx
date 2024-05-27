@@ -7,7 +7,7 @@ import ValidatePassportScore from "@/components/validatePassportScore";
 import useIsClient from "@/lib/hooks/useIsClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
 
 export default function Home() {
@@ -16,20 +16,20 @@ export default function Home() {
   const [score, setScore] = useState(0);
   const [error, setError] = useState(false);
   const { isConnected, address, chain } = useAccount();
-  const [kycParams, setKycParams] = useState({ clientId: "", repoName: "", repoOwner: "" });
   const searchParams = useSearchParams();
   const clientId = searchParams.get("clientId");
   const repoName = searchParams.get("repoName");
   const repoOwner = searchParams.get("repoOwner");
 
-  useEffect(() => {
+  const kycParams = useMemo(() => {
     if (clientId && repoName && repoOwner) {
-      setKycParams({
+      return {
         clientId,
         repoName,
         repoOwner
-      });
+      };
     }
+    return { clientId: "", repoName: "", repoOwner: "" };
   }, [clientId, repoName, repoOwner]);
 
   const handleCloseModal = (): void => {
