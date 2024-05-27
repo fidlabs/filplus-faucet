@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "@/styles/globals.css";
 import { ModalProvider } from "@/lib/providers/modal.provider";
 import Providers from "./providers";
 
