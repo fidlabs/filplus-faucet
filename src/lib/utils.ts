@@ -19,8 +19,8 @@ export function createMessage(clientId: string, repoName: string, repoOwner: str
   return {
     message: MESSAGE_TEXT,
     client_id: clientId,
-    issued_at: issuedAt.toString(),
-    expires_at: expiresAt.toString(),
+    issued_at: issuedAt.toISOString(),
+    expires_at: expiresAt.toISOString(),
     allocator_repo_name: repoName,
     allocator_repo_owner: repoOwner
   };

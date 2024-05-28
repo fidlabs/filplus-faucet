@@ -7,13 +7,27 @@ export const env = createEnv({
     NEXT_PUBLIC_CHAIN_ID: z.number().int().default(10),
     NEXT_PUBLIC_DAYS_TO_EXPIRE: z.number().int().positive().default(1),
     NEXT_PUBLIC_BACKEND_API_URL: z.string().url().default("https://api.allocator.tech"),
-    NEXT_PUBLIC_DECODER_CONTRACT_ADDRESS: z.string().default(zeroAddress)
+    NEXT_PUBLIC_DECODER_CONTRACT_ADDRESS: z.string().default(zeroAddress),
+    NEXT_PUBLIC_RPC_URL: z.string().url().default("https://mainnet.optimism.io"),
+    NEXT_PUBLIC_EXPLORER_URL: z.string().url().default("https://optimistic.etherscan.io"),
+    NEXT_PUBLIC_CHAIN_NAME: z.string().default("optimism"),
+    NEXT_PUBLIC_NATIVE_CURRENCY: z.string().default("ETH"),
+    NEXT_PUBLIC_SYMBOL: z.string().default("ETH"),
+    NEXT_PUBLIC_DECIMALS: z.number().int().default(18)
   },
 
   runtimeEnv: {
-    NEXT_PUBLIC_CHAIN_ID: process.env.NEXT_PUBLIC_CHAIN_ID || undefined,
-    NEXT_PUBLIC_DAYS_TO_EXPIRE: process.env.NEXT_PUBLIC_DAYS_TO_EXPIRE || undefined,
+    NEXT_PUBLIC_CHAIN_ID: process.env.NEXT_PUBLIC_CHAIN_ID ? parseInt(process.env.NEXT_PUBLIC_CHAIN_ID) : undefined,
+    NEXT_PUBLIC_DAYS_TO_EXPIRE: process.env.NEXT_PUBLIC_DAYS_TO_EXPIRE
+      ? parseInt(process.env.NEXT_PUBLIC_DAYS_TO_EXPIRE)
+      : undefined,
     NEXT_PUBLIC_BACKEND_API_URL: process.env.NEXT_PUBLIC_BACKEND_API_URL || undefined,
-    NEXT_PUBLIC_DECODER_CONTRACT_ADDRESS: process.env.NEXT_PUBLIC_DECODER_CONTRACT_ADDRESS || undefined
+    NEXT_PUBLIC_DECODER_CONTRACT_ADDRESS: process.env.NEXT_PUBLIC_DECODER_CONTRACT_ADDRESS || undefined,
+    NEXT_PUBLIC_RPC_URL: process.env.NEXT_PUBLIC_RPC_URL || undefined,
+    NEXT_PUBLIC_EXPLORER_URL: process.env.NEXT_PUBLIC_EXPLORER_URL || undefined,
+    NEXT_PUBLIC_CHAIN_NAME: process.env.NEXT_PUBLIC_CHAIN_NAME || undefined,
+    NEXT_PUBLIC_NATIVE_CURRENCY: process.env.NEXT_PUBLIC_NATIVE_CURRENCY || undefined,
+    NEXT_PUBLIC_SYMBOL: process.env.NEXT_PUBLIC_SYMBOL || undefined,
+    NEXT_PUBLIC_DECIMALS: process.env.NEXT_PUBLIC_DECIMALS ? parseInt(process.env.NEXT_PUBLIC_DECIMALS) : undefined
   }
 });
