@@ -4,6 +4,7 @@ import { Modal } from "@/components/modals/modal";
 import { Card } from "@/components/ui/card";
 import KycApproval from "@/components/ui/kycApproval";
 import ValidatePassportScore from "@/components/validatePassportScore";
+import useIsClient from "@/lib/hooks/useIsClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -11,6 +12,7 @@ import { useAccount } from "wagmi";
 
 export default function Home() {
   const [modalMessage, setModalMessage] = useState<string | null>(null);
+  const isClient = useIsClient();
   const [score, setScore] = useState(0);
   const [error, setError] = useState(false);
   const { isConnected, address, chain } = useAccount();
@@ -18,6 +20,7 @@ export default function Home() {
   const clientId = searchParams.get("clientId") || "";
   const repoName = searchParams.get("repoName") || "";
   const repoOwner = searchParams.get("repoOwner") || "";
+
   const handleCloseModal = (): void => {
     setError(false);
     setModalMessage(null);
@@ -36,7 +39,7 @@ export default function Home() {
 
       <main className="flex flex-col items-center justify-between p-24">
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          {!isConnected ? (
+          {!isConnected && isClient ? (
             <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">Please Connect Wallet to proceeed</h1>
           ) : (
             <>
