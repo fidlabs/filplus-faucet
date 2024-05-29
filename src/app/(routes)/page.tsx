@@ -15,7 +15,7 @@ export default function Home() {
   const isClient = useIsClient();
   const [score, setScore] = useState(0);
   const [error, setError] = useState(false);
-  const { isConnected, address, chain } = useAccount();
+  const { isConnected, address, chain, connector } = useAccount();
   const searchParams = useSearchParams();
   const clientId = searchParams.get("clientId") || "";
   const repoName = searchParams.get("repoName") || "";
@@ -78,6 +78,8 @@ export default function Home() {
         </div>
         {score > 30 && (
           <KycApproval
+            account={address}
+            connector={connector}
             isConnected={isConnected}
             clientId={clientId}
             repoName={repoName}

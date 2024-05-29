@@ -1,53 +1,55 @@
-import { useSignTypedData } from "wagmi";
 import { Button } from "./button";
 import { useApi } from "@/hooks";
-import { useEffect, useState } from "react";
 import { env } from "@/env";
 import { PRIMARY_TYPE, createApprovalTypes, createDomain, createMessage } from "@/lib/utils";
 import { KycProps } from "@/types/kyc";
+import { signTypedData, verifyTypedData } from "@wagmi/core";
+import { useWagmiConfig } from "@/app/wagmiConfig";
 
-export default function KycApproval({ isConnected, chainId, clientId, repoName, repoOwner, version, onError }: KycProps) {
+export default function KycApproval({
+  account,
+  connector,
+  isConnected,
+  chainId,
+  clientId,
+  repoName,
+  repoOwner,
+  version,
+  onError
+}: KycProps) {
   const showButton = isConnected && repoName && clientId && repoOwner;
-  const { signTypedDataAsync, data } = useSignTypedData();
+  const config = useWagmiConfig();
   const { apiPost } = useApi();
+  const approvalTypes = createApprovalTypes();
+  const domain = createDomain(chainId, version);
+  const message = createMessage(clientId, repoName, repoOwner);
 
-  const [message, setMessage] = useState(createMessage(clientId, repoName, repoOwner));
-  const [domain, setDomain] = useState(createDomain(chainId, version));
-  const [approvalTypes, setApprovalTypes] = useState(createApprovalTypes());
+  const handleClick = async () => {
+    if (!connector) {
+      onError("Check your wallet connection");
+      throw new Error("No connector");
+    }
 
-  useEffect(() => {
-    setMessage(createMessage(clientId, repoName, repoOwner));
-    setDomain(createDomain(chainId, version));
-    setApprovalTypes(createApprovalTypes());
-  }, []);
-
-  useEffect(() => {
-    const submitKyc = async () => {
-      if (data) {
-        try {
-          await apiPost(`${env.NEXT_PUBLIC_BACKEND_API_URL}/application/submit_kyc`, {
-            message,
-            signature: data
-          });
-        } catch (e) {
-          onError("Failed to submit KYC");
-          console.error(e);
-        }
-      }
-    };
-
-    submitKyc();
-  }, [data]);
-
-  const handleClick = () => {
-    console.log(message);
-    signTypedDataAsync({
+    const signature = await signTypedData(config, {
+      account,
+      connector,
       domain,
       types: approvalTypes,
       primaryType: PRIMARY_TYPE,
       message
     });
+
+    try {
+      await apiPost(`${env.NEXT_PUBLIC_BACKEND_API_URL}/application/submit_kyc`, {
+        message,
+        signature
+      });
+    } catch (e) {
+      onError("Failed to submit KYC");
+      console.error(e);
+    }
   };
+
   return (
     showButton && (
       <Button className="mx-auto" onClick={handleClick}>
