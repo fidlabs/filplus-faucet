@@ -1,19 +1,25 @@
 import { useSignTypedData } from "wagmi";
 import { Button } from "./button";
 import { useApi } from "@/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { env } from "@/env";
 import { PRIMARY_TYPE, createApprovalTypes, createDomain, createMessage } from "@/lib/utils";
 import { KycProps } from "@/types/kyc";
 
 export default function KycApproval({ isConnected, chainId, clientId, repoName, repoOwner, version, onError }: KycProps) {
   const showButton = isConnected && repoName && clientId && repoOwner;
-  const { signTypedData, data } = useSignTypedData();
+  const { signTypedDataAsync, data } = useSignTypedData();
   const { apiPost } = useApi();
 
-  const message = createMessage(clientId, repoName, repoOwner);
-  const domain = createDomain(chainId, version);
-  const approvalTypes = createApprovalTypes();
+  const [message, setMessage] = useState(createMessage(clientId, repoName, repoOwner));
+  const [domain, setDomain] = useState(createDomain(chainId, version));
+  const [approvalTypes, setApprovalTypes] = useState(createApprovalTypes());
+
+  useEffect(() => {
+    setMessage(createMessage(clientId, repoName, repoOwner));
+    setDomain(createDomain(chainId, version));
+    setApprovalTypes(createApprovalTypes());
+  }, []);
 
   useEffect(() => {
     const submitKyc = async () => {
@@ -33,19 +39,18 @@ export default function KycApproval({ isConnected, chainId, clientId, repoName, 
     submitKyc();
   }, [data]);
 
+  const handleClick = () => {
+    console.log(message);
+    signTypedDataAsync({
+      domain,
+      types: approvalTypes,
+      primaryType: PRIMARY_TYPE,
+      message
+    });
+  };
   return (
     showButton && (
-      <Button
-        className="mx-auto"
-        onClick={() =>
-          signTypedData({
-            domain,
-            types: approvalTypes,
-            primaryType: PRIMARY_TYPE,
-            message
-          })
-        }
-      >
+      <Button className="mx-auto" onClick={handleClick}>
         Share and submit passport
       </Button>
     )
