@@ -3,7 +3,7 @@
 import { Modal } from "@/components/modals/modal";
 import { Card } from "@/components/ui/card";
 import KycApproval from "@/components/ui/kycApproval";
-import ValidatePassportScore from "@/components/validatePassportScore";
+import MainContent from "@/components/ui/mainContent";
 import useIsClient from "@/lib/hooks/useIsClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useSearchParams } from "next/navigation";
@@ -31,6 +31,8 @@ export default function Home() {
     setModalMessage(message);
   };
 
+  const searchParamsProvided = clientId !== "" && repoName !== "" && repoOwner !== "";
+  const showConnectWalletMsg = !isConnected && isClient;
   return (
     <>
       <Card className="p-2 flex justify-end">
@@ -38,44 +40,13 @@ export default function Home() {
       </Card>
 
       <main className="flex flex-col items-center justify-between p-24">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          {!isConnected && isClient ? (
-            <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">Please Connect Wallet to proceeed</h1>
-          ) : (
-            <>
-              <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">User Information</h1>
-              <ul className="list-disc list-inside">
-                <li className="mb-2">
-                  Visit{" "}
-                  <a href="https://passport.gitcoin.co" className="text-blue-500 underline">
-                    passport.gitcoin.co
-                  </a>
-                </li>
-                <li className="mb-2">
-                  Validate your identity up to a{" "}
-                  <a
-                    href="https://support.gitcoin.co/gitcoin-knowledge-base/misc/explorer-passport-guide"
-                    className="text-blue-500 underline"
-                  >
-                    score
-                  </a>{" "}
-                  of 30
-                </li>
-                <li className="mb-2">
-                  "
-                  <a
-                    href="https://support.passport.xyz/passport-knowledge-base/using-passport/onchain-passport"
-                    className="text-blue-500 underline"
-                  >
-                    Bring Passport onchain
-                  </a>
-                  " to Optimism network
-                </li>
-              </ul>
-              <ValidatePassportScore address={address} chain={chain} onScoreChange={setScore} />
-            </>
-          )}
-        </div>
+        <MainContent
+          address={address}
+          chain={chain}
+          searchParamsProvided={searchParamsProvided}
+          setScore={setScore}
+          showConnectWalletMsg={showConnectWalletMsg}
+        />
         {score > 30 && (
           <KycApproval
             account={address}
