@@ -57,16 +57,14 @@ export default function KycApproval({
       setLoading(false);
       router.push(`https://www.github.com/${repoOwner}/${repoName}/issues/${repoIssue}`);
     } catch (e) {
-      const error = e as CustomError;
-
-      if (error && error.message) {
-        if (!error.message.includes("User rejected the request.")) {
-          onError(error.message);
+      if (e instanceof Error) {
+        if (!e.message.includes("User rejected the request.")) {
+          onError(e.message);
         }
       } else {
-        onError(error.toString());
+        onError("An error occurred. Please try again.");
       }
-
+    } finally {
       setLoading(false);
     }
   };

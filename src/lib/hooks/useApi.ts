@@ -18,7 +18,7 @@ export const useApi = () => {
 
     if (!response.ok) {
       console.error(`Error: ${response.status} ${response.statusText}`);
-      throw new Error(response.statusText);
+      throw new Error(await response.text());
     }
 
     try {

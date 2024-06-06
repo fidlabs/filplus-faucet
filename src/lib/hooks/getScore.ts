@@ -14,9 +14,9 @@ export default function useGetScore({ address, chain }: ValidatePassportScorePro
     chainId: chain?.id,
     abi: abi,
     functionName: "getScore",
-    args: address && [address]
+    args: address && [address],
+    query: { retry: false }
   });
-
   useEffect(() => {
     setLoading(true);
     if (data) {
