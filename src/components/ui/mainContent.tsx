@@ -1,5 +1,6 @@
 import { Address, Chain } from "viem";
 import ValidatePassportScore from "../validatePassportScore";
+import { env } from "@/env";
 
 type MainContentProps = {
   searchParamsProvided: boolean;
@@ -39,7 +40,7 @@ export default function MainContent({ searchParamsProvided, showConnectWalletMsg
             >
               score
             </a>{" "}
-            of 30
+            of {env.NEXT_PUBLIC_SCORE_THRESHOLD}
           </li>
           <li className="mb-2">
             "

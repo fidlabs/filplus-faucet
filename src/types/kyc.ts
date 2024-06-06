@@ -10,6 +10,7 @@ export interface KycProps {
   connector?: Connector;
   chainId?: number;
   version?: string;
+  repoIssue: string;
   onError: (message: string) => void;
 }
 export interface PassportScore {

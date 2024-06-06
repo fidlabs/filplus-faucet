@@ -6,6 +6,7 @@ import KycApproval from "@/components/ui/kycApproval";
 import MainContent from "@/components/ui/mainContent";
 import { env } from "@/env";
 import useIsClient from "@/lib/hooks/useIsClient";
+import { useLoading } from "@/lib/providers/loading.provider.client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -16,12 +17,13 @@ export default function Home() {
   const isClient = useIsClient();
   const [score, setScore] = useState(0);
   const [error, setError] = useState(false);
+  const { loading } = useLoading();
   const { isConnected, address, chain, connector } = useAccount();
   const searchParams = useSearchParams();
   const clientId = searchParams.get("client") || "";
   const repoName = searchParams.get("repo") || "";
   const repoOwner = searchParams.get("owner") || "";
-
+  const repoIssue = searchParams.get("issue") || "";
   const handleCloseModal = (): void => {
     setError(false);
     setModalMessage(null);
@@ -31,8 +33,8 @@ export default function Home() {
     setError(true);
     setModalMessage(message);
   };
-  console.log(env.NEXT_PUBLIC_SCORE_THRESHOLD);
-  const searchParamsProvided = clientId !== "" && repoName !== "" && repoOwner !== "";
+
+  const searchParamsProvided = clientId !== "" && repoName !== "" && repoOwner !== "" && repoIssue !== "";
   const showConnectWalletMsg = !isConnected && isClient;
   return (
     <>
@@ -48,7 +50,7 @@ export default function Home() {
           setScore={setScore}
           showConnectWalletMsg={showConnectWalletMsg}
         />
-        {score >= env.NEXT_PUBLIC_SCORE_THRESHOLD && (
+        {score >= env.NEXT_PUBLIC_SCORE_THRESHOLD && !loading && (
           <KycApproval
             account={address}
             connector={connector}
@@ -56,6 +58,7 @@ export default function Home() {
             clientId={clientId}
             repoName={repoName}
             repoOwner={repoOwner}
+            repoIssue={repoIssue}
             version="1"
             onError={handleError}
             chainId={chain?.id}

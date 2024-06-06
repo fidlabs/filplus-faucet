@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import { ModalProvider } from "@/lib/providers/modal.provider";
 import Providers from "./providers";
 import { Suspense } from "react";
+import { LoadingProvider } from "@/lib/providers/loading.provider.client";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,9 +26,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <Suspense>
           <ModalProvider>
-            <div className="flex flex-col">
-              <Providers>{children}</Providers>
-            </div>
+            <LoadingProvider>
+              <div className="flex flex-col">
+                <Providers>{children}</Providers>
+              </div>
+            </LoadingProvider>
           </ModalProvider>
         </Suspense>
       </body>
