@@ -17,9 +17,9 @@ export default function Home() {
   const [error, setError] = useState(false);
   const { isConnected, address, chain, connector } = useAccount();
   const searchParams = useSearchParams();
-  const clientId = searchParams.get("clientId") || "";
-  const repoName = searchParams.get("repoName") || "";
-  const repoOwner = searchParams.get("repoOwner") || "";
+  const clientId = searchParams.get("client") || "";
+  const repoName = searchParams.get("repo") || "";
+  const repoOwner = searchParams.get("owner") || "";
 
   const handleCloseModal = (): void => {
     setError(false);
