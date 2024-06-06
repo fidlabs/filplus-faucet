@@ -55,7 +55,7 @@ export default function KycApproval({
         signature
       });
       setLoading(false);
-      router.push(`https://www.github.com/${repoName}/${repoOwner}/issues/${repoIssue}`);
+      router.push(`https://www.github.com/${repoOwner}/${repoName}/issues/${repoIssue}`);
     } catch (e) {
       const error = e as CustomError;
 
