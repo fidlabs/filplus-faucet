@@ -4,6 +4,7 @@ import { Modal } from "@/components/modals/modal";
 import { Card } from "@/components/ui/card";
 import KycApproval from "@/components/ui/kycApproval";
 import MainContent from "@/components/ui/mainContent";
+import { env } from "@/env";
 import useIsClient from "@/lib/hooks/useIsClient";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useSearchParams } from "next/navigation";
@@ -30,7 +31,7 @@ export default function Home() {
     setError(true);
     setModalMessage(message);
   };
-
+  console.log(env.NEXT_PUBLIC_SCORE_THRESHOLD);
   const searchParamsProvided = clientId !== "" && repoName !== "" && repoOwner !== "";
   const showConnectWalletMsg = !isConnected && isClient;
   return (
@@ -47,7 +48,7 @@ export default function Home() {
           setScore={setScore}
           showConnectWalletMsg={showConnectWalletMsg}
         />
-        {score > 30 && (
+        {score >= env.NEXT_PUBLIC_SCORE_THRESHOLD && (
           <KycApproval
             account={address}
             connector={connector}

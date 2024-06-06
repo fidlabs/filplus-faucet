@@ -13,7 +13,8 @@ export const env = createEnv({
     NEXT_PUBLIC_CHAIN_NAME: z.string().default("optimism"),
     NEXT_PUBLIC_NATIVE_CURRENCY: z.string().default("ETH"),
     NEXT_PUBLIC_SYMBOL: z.string().default("ETH"),
-    NEXT_PUBLIC_DECIMALS: z.number().int().default(18)
+    NEXT_PUBLIC_DECIMALS: z.number().int().default(18),
+    NEXT_PUBLIC_SCORE_THRESHOLD: z.number().multipleOf(0.001).default(30)
   },
 
   runtimeEnv: {
@@ -28,6 +29,9 @@ export const env = createEnv({
     NEXT_PUBLIC_CHAIN_NAME: process.env.NEXT_PUBLIC_CHAIN_NAME || undefined,
     NEXT_PUBLIC_NATIVE_CURRENCY: process.env.NEXT_PUBLIC_NATIVE_CURRENCY || undefined,
     NEXT_PUBLIC_SYMBOL: process.env.NEXT_PUBLIC_SYMBOL || undefined,
-    NEXT_PUBLIC_DECIMALS: process.env.NEXT_PUBLIC_DECIMALS ? parseInt(process.env.NEXT_PUBLIC_DECIMALS) : undefined
+    NEXT_PUBLIC_DECIMALS: process.env.NEXT_PUBLIC_DECIMALS ? parseInt(process.env.NEXT_PUBLIC_DECIMALS) : undefined,
+    NEXT_PUBLIC_SCORE_THRESHOLD: process.env.NEXT_PUBLIC_SCORE_THRESHOLD
+      ? parseFloat(process.env.NEXT_PUBLIC_SCORE_THRESHOLD)
+      : undefined
   }
 });
