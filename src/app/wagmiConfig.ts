@@ -1,6 +1,8 @@
 import { env } from "@/env";
 import { useMemo } from "react";
 import { http, createConfig } from "wagmi";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { metaMaskWallet, walletConnectWallet, ledgerWallet } from "@rainbow-me/rainbowkit/wallets";
 
 const useNetworkConfig = () => {
   const {
@@ -28,6 +30,19 @@ const useNetworkConfig = () => {
   );
 };
 
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: "Recommended",
+      wallets: [metaMaskWallet, walletConnectWallet, ledgerWallet]
+    }
+  ],
+  {
+    appName: "KYC portal",
+    projectId: env.NEXT_PUBLIC_WALLET_CONNECT_ID
+  }
+);
+
 export const useWagmiConfig = () => {
   const networkConfig = useNetworkConfig();
   const chainConfig = networkConfig[env.NEXT_PUBLIC_CHAIN_NAME];
@@ -37,6 +52,7 @@ export const useWagmiConfig = () => {
       createConfig({
         chains: [chainConfig],
         transports: { [chainConfig.chainId]: http(chainConfig.rpc) },
+        connectors,
         ssr: true
       }),
     [chainConfig]
