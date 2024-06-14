@@ -34,7 +34,8 @@ export default function Home() {
     setModalMessage(message);
   };
 
-  const searchParamsProvided = clientId !== "" && repoName !== "" && repoOwner !== "" && repoIssue !== "";
+  const searchParamsProvided =
+    clientId !== "" && repoName !== "" && repoOwner !== "" && repoIssue !== "";
   const showConnectWalletMsg = !isConnected && isClient;
   return (
     <>
@@ -65,7 +66,13 @@ export default function Home() {
           />
         )}
       </main>
-      {modalMessage != null && <Modal message={modalMessage} onClose={handleCloseModal} error={error} />}
+      {modalMessage != null && (
+        <Modal
+          message={modalMessage}
+          onClose={handleCloseModal}
+          error={error}
+        />
+      )}
     </>
   );
 }

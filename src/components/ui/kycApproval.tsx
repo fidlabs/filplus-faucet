@@ -1,7 +1,12 @@
 import { Button } from "./button";
 import { useApi } from "@/hooks";
 import { env } from "@/env";
-import { PRIMARY_TYPE, createApprovalTypes, createDomain, createMessage } from "@/lib/utils";
+import {
+  PRIMARY_TYPE,
+  createApprovalTypes,
+  createDomain,
+  createMessage,
+} from "@/lib/utils";
 import { KycProps } from "@/types/kyc";
 import { signTypedData } from "@wagmi/core";
 import { useWagmiConfig } from "@/app/wagmiConfig";
@@ -22,9 +27,10 @@ export default function KycApproval({
   repoOwner,
   repoIssue,
   version,
-  onError
+  onError,
 }: KycProps) {
-  const showButton = isConnected && repoName && clientId && repoOwner && repoIssue;
+  const showButton =
+    isConnected && repoName && clientId && repoOwner && repoIssue;
   const config = useWagmiConfig();
   const { apiPost } = useApi();
   const approvalTypes = createApprovalTypes();
@@ -47,15 +53,20 @@ export default function KycApproval({
         domain,
         types: approvalTypes,
         primaryType: PRIMARY_TYPE,
-        message
+        message,
       });
 
-      await apiPost(`${env.NEXT_PUBLIC_BACKEND_API_URL}/application/submit_kyc`, {
-        message,
-        signature
-      });
+      await apiPost(
+        `${env.NEXT_PUBLIC_BACKEND_API_URL}/application/submit_kyc`,
+        {
+          message,
+          signature,
+        },
+      );
       setLoading(false);
-      router.push(`https://www.github.com/${repoOwner}/${repoName}/issues/${repoIssue}`);
+      router.push(
+        `https://www.github.com/${repoOwner}/${repoName}/issues/${repoIssue}`,
+      );
     } catch (e) {
       if (e instanceof Error) {
         if (!e.message.includes("User rejected the request.")) {

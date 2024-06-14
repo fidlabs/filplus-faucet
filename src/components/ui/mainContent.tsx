@@ -10,7 +10,13 @@ type MainContentProps = {
   setScore: (score: number) => void;
 };
 
-export default function MainContent({ searchParamsProvided, showConnectWalletMsg, address, chain, setScore }: MainContentProps) {
+export default function MainContent({
+  searchParamsProvided,
+  showConnectWalletMsg,
+  address,
+  chain,
+  setScore,
+}: MainContentProps) {
   if (!searchParamsProvided)
     return (
       <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">
@@ -19,16 +25,25 @@ export default function MainContent({ searchParamsProvided, showConnectWalletMsg
     );
 
   if (showConnectWalletMsg)
-    return <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">Please Connect Wallet to proceed.</h1>;
+    return (
+      <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">
+        Please Connect Wallet to proceed.
+      </h1>
+    );
 
   return (
     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <>
-        <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">User Information</h1>
+        <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">
+          User Information
+        </h1>
         <ul className="list-disc list-inside">
           <li className="mb-2">
             Visit{" "}
-            <a href="https://passport.gitcoin.co" className="text-blue-500 underline">
+            <a
+              href="https://passport.gitcoin.co"
+              className="text-blue-500 underline"
+            >
               passport.gitcoin.co
             </a>
           </li>
@@ -43,17 +58,21 @@ export default function MainContent({ searchParamsProvided, showConnectWalletMsg
             of {env.NEXT_PUBLIC_SCORE_THRESHOLD}
           </li>
           <li className="mb-2">
-            "
+            &quot;
             <a
               href="https://support.passport.xyz/passport-knowledge-base/using-passport/onchain-passport"
               className="text-blue-500 underline"
             >
               Bring Passport onchain
             </a>
-            " to Optimism network
+            &quot; to Optimism network
           </li>
         </ul>
-        <ValidatePassportScore address={address} chain={chain} onScoreChange={setScore} />
+        <ValidatePassportScore
+          address={address}
+          chain={chain}
+          onScoreChange={setScore}
+        />
       </>
     </div>
   );

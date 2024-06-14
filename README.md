@@ -5,7 +5,7 @@
 Copy `.env.example` to `.env` and fill with values:
 
 | Variable name                        | Description                                                          |
-|--------------------------------------|----------------------------------------------------------------------|
+| ------------------------------------ | -------------------------------------------------------------------- |
 | NEXT_PUBLIC_CHAIN_ID                 | Chain ID of chain that will be used for checking passport data.      |
 | NEXT_PUBLIC_DAYS_TO_EXPIRE           | How long is the signature valid                                      |
 | NEXT_PUBLIC_BACKEND_API_URL          | URL to allocator.tech API                                            |

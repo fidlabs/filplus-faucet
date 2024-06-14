@@ -6,7 +6,10 @@ import { getAddress } from "viem";
 import { useReadContract } from "wagmi";
 import { useLoading } from "../providers/loading.provider.client";
 
-export default function useGetScore({ address, chain }: ValidatePassportScoreProps) {
+export default function useGetScore({
+  address,
+  chain,
+}: ValidatePassportScoreProps) {
   const [score, setScore] = useState<string>("0");
   const { setLoading } = useLoading();
   const { data, error } = useReadContract({
@@ -15,7 +18,7 @@ export default function useGetScore({ address, chain }: ValidatePassportScorePro
     abi: abi,
     functionName: "getScore",
     args: address && [address],
-    query: { retry: false }
+    query: { retry: false },
   });
   useEffect(() => {
     setLoading(true);
@@ -27,7 +30,7 @@ export default function useGetScore({ address, chain }: ValidatePassportScorePro
       setLoading(false);
       setScore("0");
     }
-  }, [data, error]);
+  }, [data, error, setLoading]);
 
   return { score };
 }

@@ -10,11 +10,11 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Fil+ KYC",
-  description: "filplus KYC portal"
+  description: "filplus KYC portal",
 };
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {

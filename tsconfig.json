@@ -22,7 +22,7 @@
       "@/icons": ["./src/components/icons"],
       "@/interfaces": ["./src/lib/interfaces"],
       "@/hooks": ["./src/lib/hooks"],
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

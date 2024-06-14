@@ -11,9 +11,9 @@ export const useApi = () => {
       method: "POST",
       headers: {
         ...headers,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: data ? JSON.stringify(data) : undefined
+      body: data ? JSON.stringify(data) : undefined,
     });
 
     if (!response.ok) {
@@ -34,9 +34,9 @@ export const useApi = () => {
     const response = await fetch(url, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: data ? JSON.stringify(data) : undefined
+      body: data ? JSON.stringify(data) : undefined,
     });
 
     return await response.json();
@@ -44,7 +44,7 @@ export const useApi = () => {
 
   const apiDelete = async (url: string) => {
     const response = await fetch(url, {
-      method: "DELETE"
+      method: "DELETE",
     });
 
     return await response.json();

@@ -19,4 +19,4 @@ export const useOutsideAlerter = (
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [ref, callback, prompt]);
-}
+};

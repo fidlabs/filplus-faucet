@@ -1,38 +1,41 @@
-import {useMemo, useState} from "react";
-import {IUser} from "@/lib/interfaces/user.interface";
-import {useApi} from "@/lib/hooks/useApi";
-
+import { useMemo, useState } from "react";
+import { IUser } from "@/lib/interfaces/user.interface";
+import { useApi } from "@/lib/hooks/useApi";
 
 export const useAuthentication = () => {
+  const { apiGet, apiPost } = useApi();
 
-    const { apiGet, apiPost } = useApi();
+  const [user, setUser] = useState<IUser | undefined>(undefined);
 
-    const [user, setUser] = useState<IUser | undefined>(undefined)
+  const login = async (email: string, password: string) => {};
 
-    const login = async (email: string, password: string) => {
+  const logout = async () => {
+    // Call the logout API
+  };
 
-    }
+  const register = async (email: string, password: string) => {
+    // Call the register API
+  };
 
-    const logout = async () => {
-        // Call the logout API
-    }
+  const resetPassword = async (email: string) => {
+    // Call the reset password API
+  };
 
-    const register = async (email: string, password: string) => {
-        // Call the register API
-    }
+  const getUser = async () => {
+    // Call the get user API
+  };
 
-    const resetPassword = async (email: string) => {
-        // Call the reset password API
-    }
+  const isAuthenticated = useMemo(() => {
+    return !!user;
+  }, [user]);
 
-    const getUser = async () => {
-        // Call the get user API
-    }
-
-    const isAuthenticated = useMemo(() => {
-        return !!user;
-    }, [user]);
-
-    return {login, logout, register, resetPassword, getUser, user, isAuthenticated};
-
-}
+  return {
+    login,
+    logout,
+    register,
+    resetPassword,
+    getUser,
+    user,
+    isAuthenticated,
+  };
+};
