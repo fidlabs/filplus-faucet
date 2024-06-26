@@ -39,9 +39,11 @@ export default function Home() {
   const showConnectWalletMsg = !isConnected && isClient;
   return (
     <>
-      <Card className="p-2 flex justify-end">
-        <ConnectButton showBalance={false} />
-      </Card>
+      {isConnected && (
+        <Card className="p-2 flex justify-end">
+          <ConnectButton showBalance={false} />
+        </Card>
+      )}
 
       <main className="flex flex-col items-center justify-between p-24">
         <MainContent
