@@ -33,7 +33,7 @@ export default function MainContent({
           Welcome to Fil+ Client KYC Portal.
         </h1>
         <br />
-        <p className="text-gray-700 text-base text-center">
+        <p className="text-base text-center">
           As part of your DataCap Request Application, you are required to
           complete KYC verification.
         </p>
@@ -57,7 +57,7 @@ export default function MainContent({
             >
               passport score
             </a>{" "}
-            meets the minimum requirement of ${scoreThreshold}
+            meets the minimum requirement of {scoreThreshold}
           </li>
           <li className="mb-2">
             <a
