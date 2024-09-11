@@ -17,6 +17,7 @@ Copy `.env.example` to `.env` and fill with values:
 | NEXT_PUBLIC_SYMBOL                   | Symbol of the native currency                                        |
 | NEXT_PUBLIC_DECIMALS                 | Decimals of the native currency                                      |
 | NEXT_PUBLIC_SCORE_THRESHOLD          | Minimal passport score required                                      |
+| NEXT_PUBLIC_LAST_ALLOCATION_EXP_DAYS | How long is the allocation valid                                     |
 
 ```
 npm ci

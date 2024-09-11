@@ -9,8 +9,8 @@ import { LoadingProvider } from "@/lib/providers/loading.provider.client";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Fil+ KYC",
-  description: "filplus KYC portal",
+  title: "Fil+ AutoAllocator",
+  description: "filplus auto allocator app",
 };
 
 export default function RootLayout({

@@ -1,5 +1,3 @@
-import { useAuthentication } from "@/lib/hooks";
-
 export const useApi = () => {
   const apiGet = async (url: string, headers?: any) => {
     const response = await fetch(url, { headers });
