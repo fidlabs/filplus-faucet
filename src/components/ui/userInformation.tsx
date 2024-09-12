@@ -9,27 +9,36 @@ import { Address } from "viem";
 
 const UserInformation: FC<{
   walletAddress: Address;
-  setScore: (score: number) => void;
+  setScore: (score: number | null) => void;
   score?: number;
   isValidAllocation: boolean | null;
   lastAllocationTimestamp: number | null;
+  onError?: (message: string) => void;
 }> = ({
   walletAddress,
   setScore,
   lastAllocationTimestamp,
   isValidAllocation,
+  onError,
 }) => {
   const { setLoading } = useLoading();
   const wagmiConfig = useWagmiConfig();
 
   const allocationExpireDate =
-    lastAllocationTimestamp && new Date(lastAllocationTimestamp * 1000);
+    lastAllocationTimestamp && new Date(lastAllocationTimestamp);
 
   return (
     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center">
       <p className="block text-gray-700 font-bold mb-2 text-lg text-center ">
         User Information:
       </p>
+      <div className="mb-2">
+        Wallet address :{" "}
+        <span className="font-bold">
+          {walletAddress.slice(0, 4)}...
+          {walletAddress.slice(walletAddress.length - 4, walletAddress.length)}
+        </span>
+      </div>
       <div className="mb-2">
         <ValidatePassportScore
           walletAddress={walletAddress}
@@ -40,6 +49,7 @@ const UserInformation: FC<{
           scoreDivider={BigInt(10_000)}
           wagmiConfig={wagmiConfig}
           onLoading={setLoading}
+          onError={onError}
         />
       </div>
       {
@@ -47,7 +57,14 @@ const UserInformation: FC<{
           The last allocation expires:{" "}
           <span className="text-red-600">
             {allocationExpireDate
-              ? allocationExpireDate.toLocaleDateString("en-GB")
+              ? allocationExpireDate.toLocaleString("en-GB", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                })
               : "not exist"}{" "}
             ({isValidAllocation ? "Valid" : "Invalid"})
           </span>

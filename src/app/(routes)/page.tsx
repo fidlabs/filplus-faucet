@@ -24,7 +24,7 @@ import { useWagmiConfig } from "../wagmiConfig";
 
 export default function Home() {
   const [modalMessage, setModalMessage] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState<number>(0);
   const [error, setError] = useState(false);
   const { loading, setLoading } = useLoading();
   const isClient = useIsClient();
@@ -62,25 +62,37 @@ export default function Home() {
 
   const getLastAllocation = async () => {
     const result = await apiGet(
-      `${env.NEXT_PUBLIC_BACKEND_API_URL}/autoallocator/last_allocation?evm_wallet_address=${walletAddress}`
+      `${env.NEXT_PUBLIC_BACKEND_API_URL}/autoallocator/last_client_allocation?evm_wallet_address=${walletAddress}`
     );
 
-    console.log(result);
-    setLastAllocationTimestamp(result);
+    if (result) {
+      const timestamp = new Date(result).getTime();
 
-    const isValidAllocation = lastAllocationTimestamp
-      ? lastAllocationTimestamp * 1000 +
-          allocationExpDays * 24 * 60 * 60 * 1000 >
-        Date.now()
-      : null;
+      setLastAllocationTimestamp(timestamp);
 
-    setIsValidAllocation(isValidAllocation);
+      const isValidAllocation = timestamp
+        ? timestamp + allocationExpDays * 24 * 60 * 60 * 1000 > Date.now()
+        : null;
+
+      setIsValidAllocation(isValidAllocation);
+    }
   };
 
-  const handleScore = async (score: number) => {
+  const scoreError = () => {
+    setScore(0);
+    setIsValidAllocation(null);
+    setLastAllocationTimestamp(null);
+    setStep(2);
+  };
+
+  const handleScore = async (score: number | null) => {
+    if (score === null) return;
+
     setScore(score);
 
     if (score < minScore) {
+      setIsValidAllocation(null);
+      setLastAllocationTimestamp(null);
       setStep(2);
     } else {
       try {
@@ -102,8 +114,6 @@ export default function Home() {
     setLoading(true);
 
     try {
-      console.log("filecoinAddress", filecoinAddress);
-
       const filecoinTypes = createFilecoinTypes();
       const domain = createDomain(chain?.id);
       const message = createMessage(filecoinAddress);
@@ -160,6 +170,7 @@ export default function Home() {
               isValidAllocation={isValidAllocation}
               lastAllocationTimestamp={lastAllocationTimestamp}
               setScore={handleScore}
+              onError={scoreError}
             />
           )}
           {step === 2 && (
@@ -201,7 +212,7 @@ export default function Home() {
             </>
           )}
 
-          {step === 3 && isConnected && (
+          {step === 3 && isConnected && !isValidAllocation && (
             <FileCoinAddressAccept handleClick={handleFilecoinAccept} />
           )}
         </div>
