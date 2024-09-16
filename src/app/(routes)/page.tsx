@@ -129,7 +129,7 @@ export default function Home() {
       });
 
       await apiPost(
-        `${env.NEXT_PUBLIC_BACKEND_API_URL}/application/submit_filecoin`,
+        `${env.NEXT_PUBLIC_BACKEND_API_URL}/autoallocator/trigger_autoallocation`,
         {
           message,
           signature,
@@ -141,6 +141,7 @@ export default function Home() {
       setStep(0);
     } catch (error: any) {
       const errorMessage = "Error while accepting filecoin address";
+      console.error(error);
       handleError(errorMessage);
     } finally {
       setLoading(false);

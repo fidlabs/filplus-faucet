@@ -41,7 +41,7 @@ export function createFilecoinTypes() {
   return {
     FilCoinAddress: [
       { name: "message", type: "string" },
-      { name: "client_id", type: "string" },
+      { name: "client_fil_address", type: "string" },
       { name: "issued_at", type: "string" },
       { name: "expires_at", type: "string" },
     ],
