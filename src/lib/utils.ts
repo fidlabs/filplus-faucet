@@ -22,7 +22,7 @@ export function createMessage(clientId: string) {
 
   return {
     message: MESSAGE_TEXT,
-    client_id: clientId,
+    client_fil_address: clientId,
     issued_at: issuedAt.toISOString(),
     expires_at: expiresAt.toISOString(),
   };

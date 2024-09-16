@@ -42,6 +42,7 @@ export default function Home() {
   const [lastAllocationTimestamp, setLastAllocationTimestamp] = useState<
     number | null
   >(null);
+
   const [isValidAllocation, setIsValidAllocation] = useState<boolean | null>(
     null
   );
@@ -128,7 +129,7 @@ export default function Home() {
       });
 
       await apiPost(
-        `${env.NEXT_PUBLIC_BACKEND_API_URL}/application/submit_filecoin`, // TODO: new endpoint!
+        `${env.NEXT_PUBLIC_BACKEND_API_URL}/application/submit_filecoin`,
         {
           message,
           signature,
