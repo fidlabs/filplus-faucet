@@ -163,7 +163,7 @@ export default function Home() {
       )}
 
       <main className="flex flex-col items-center justify-between p-24">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center">
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-2/5">
           <p className="block text-gray-700 font-bold mb-8 text-3xl text-center">
             Welcome to Fil+ AutoAllocator
           </p>
