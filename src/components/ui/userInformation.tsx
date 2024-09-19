@@ -24,11 +24,16 @@ const UserInformation: FC<{
   const { setLoading } = useLoading();
   const wagmiConfig = useWagmiConfig();
 
-  const allocationExpireDate =
+  const allocationExpDays = env.NEXT_PUBLIC_LAST_ALLOCATION_EXP_DAYS;
+
+  const lastAllocationDate =
     lastAllocationTimestamp && new Date(lastAllocationTimestamp);
+  const currentAllocationExpireDate =
+    lastAllocationTimestamp &&
+    new Date(lastAllocationTimestamp + allocationExpDays * 24 * 60 * 60 * 1000);
 
   return (
-    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center">
+    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-4/5">
       <p className="block text-gray-700 font-bold mb-2 text-lg text-center ">
         User Information:
       </p>
@@ -53,22 +58,50 @@ const UserInformation: FC<{
         />
       </div>
       {
-        <div>
-          The last allocation expires:{" "}
-          <span className="text-red-600">
-            {allocationExpireDate
-              ? allocationExpireDate.toLocaleString("en-GB", {
+        <>
+          <div className="mb-2">
+            The last allocation date:{" "}
+            {lastAllocationDate && (
+              <>
+                <span>
+                  {lastAllocationDate.toLocaleString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  })}{" "}
+                </span>
+                <span
+                  className={
+                    isValidAllocation ? "text-green-600" : "text-red-600"
+                  }
+                >
+                  ({isValidAllocation ? "Valid" : "Invalid"})
+                </span>
+              </>
+            )}
+            {!lastAllocationDate && (
+              <span className="text-red-600">not exist</span>
+            )}
+          </div>
+          {isValidAllocation && currentAllocationExpireDate && (
+            <div>
+              Current allocation will expire at:{" "}
+              <span className="text-red-600">
+                {currentAllocationExpireDate.toLocaleString("en-GB", {
                   day: "2-digit",
                   month: "2-digit",
                   year: "numeric",
                   hour: "2-digit",
                   minute: "2-digit",
                   hour12: false,
-                })
-              : "not exist"}{" "}
-            ({isValidAllocation ? "Valid" : "Invalid"})
-          </span>
-        </div>
+                })}
+              </span>
+            </div>
+          )}
+        </>
       }
     </div>
   );

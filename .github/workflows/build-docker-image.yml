@@ -1,0 +1,82 @@
+name: Build docker image
+run-name: "Build image for ${{ github.ref_name }} triggered by ${{ github.actor }} for ${{ inputs.environment }}; version: ${{ inputs.version || 'N/A'}}"
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: false
+        type: string
+      environment:
+        required: true
+        type: string
+
+env:
+  ECR_REPOSITORY: "filplus-auto-allocator"
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Run release process for ${{ inputs.environment }}
+        run: |
+          echo "Environment: ${{ inputs.environment }}"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: "true"
+          registry-type: public
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          flavor: |
+            latest=false
+          images: public.ecr.aws/f4h6r4m9/${{ env.ECR_REPOSITORY }}
+          tags: |
+            type=semver,pattern={{version}},value=${{ inputs.version }},suffix=-${{ inputs.environment }},enable=${{inputs.version != ''}}
+            type=ref,event=branch,pattern={{branch}},suffix=-${{ inputs.environment }}
+            type=ref,event=pr,pattern={{branch}},suffix=-${{ inputs.environment }}
+
+      - name: Create env file
+        run: |
+          echo "NEXT_PUBLIC_CHAIN_ID='${{ vars.NEXT_PUBLIC_CHAIN_ID }}'" >> .env
+          echo "NEXT_PUBLIC_DAYS_TO_EXPIRE='${{ vars.NEXT_PUBLIC_DAYS_TO_EXPIRE }}'" >> .env
+          echo "NEXT_PUBLIC_BACKEND_API_URL='${{ vars.NEXT_PUBLIC_BACKEND_API_URL }}'" >> .env
+          echo "NEXT_PUBLIC_DECODER_CONTRACT_ADDRESS='${{ vars.NEXT_PUBLIC_DECODER_CONTRACT_ADDRESS }}'" >> .env
+          echo "NEXT_PUBLIC_RPC_URL='${{ vars.NEXT_PUBLIC_RPC_URL }}'" >> .env
+          echo "NEXT_PUBLIC_EXPLORER_URL='${{ vars.NEXT_PUBLIC_EXPLORER_URL }}'" >> .env
+          echo "NEXT_PUBLIC_CHAIN_NAME='${{ vars.NEXT_PUBLIC_CHAIN_NAME }}'" >> .env
+          echo "NEXT_PUBLIC_NATIVE_CURRENCY='${{ vars.NEXT_PUBLIC_NATIVE_CURRENCY }}'" >> .env
+          echo "NEXT_PUBLIC_SYMBOL='${{ vars.NEXT_PUBLIC_SYMBOL }}'" >> .env
+          echo "NEXT_PUBLIC_DECIMALS='${{ vars.NEXT_PUBLIC_DECIMALS }}'" >> .env
+          echo "NEXT_PUBLIC_SCORE_THRESHOLD='${{ vars.NEXT_PUBLIC_SCORE_THRESHOLD }}'" >> .env
+          echo "NEXT_PUBLIC_WALLET_CONNECT_ID='${{ vars.NEXT_PUBLIC_WALLET_CONNECT_ID }}'" >> .env
+          echo "NEXT_PUBLIC_LAST_ALLOCATION_EXP_DAYS='${{ vars.NEXT_PUBLIC_LAST_ALLOCATION_EXP_DAYS }}'" >> .env
+
+      - name: Build tag
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          github-token: ${{ secrets.GITHUB_TOKEN }}

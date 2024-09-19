@@ -26,7 +26,7 @@ export default function Home() {
   const [modalMessage, setModalMessage] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
   const [error, setError] = useState(false);
-  const { loading, setLoading } = useLoading();
+  const { setLoading } = useLoading();
   const isClient = useIsClient();
 
   const {
@@ -116,7 +116,7 @@ export default function Home() {
 
     try {
       const filecoinTypes = createFilecoinTypes();
-      const domain = createDomain(chain?.id);
+      const domain = createDomain(chain?.id, "1");
       const message = createMessage(filecoinAddress);
 
       const signature = await signTypedData(wagmiConfig, {
@@ -136,13 +136,19 @@ export default function Home() {
         }
       );
 
+      await getLastAllocation();
       setError(false);
       setModalMessage("New allocation has been created!");
       setStep(0);
     } catch (error: any) {
-      const errorMessage = "Error while accepting filecoin address";
+      if (error instanceof Error) {
+        if (!error.message.includes("User rejected the request.")) {
+          handleError(error.message);
+        }
+      } else {
+        handleError("An error occurred. Please try again.");
+      }
       console.error(error);
-      handleError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -157,7 +163,7 @@ export default function Home() {
       )}
 
       <main className="flex flex-col items-center justify-between p-24">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center">
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-2/5">
           <p className="block text-gray-700 font-bold mb-8 text-3xl text-center">
             Welcome to Fil+ AutoAllocator
           </p>
