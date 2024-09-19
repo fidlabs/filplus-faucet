@@ -71,12 +71,12 @@ jobs:
           echo "NEXT_PUBLIC_WALLET_CONNECT_ID='${{ vars.NEXT_PUBLIC_WALLET_CONNECT_ID }}'" >> .env
           echo "NEXT_PUBLIC_LAST_ALLOCATION_EXP_DAYS='${{ vars.NEXT_PUBLIC_LAST_ALLOCATION_EXP_DAYS }}'" >> .env
 
-      # - name: Build tag
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build tag
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          github-token: ${{ secrets.GITHUB_TOKEN }}
