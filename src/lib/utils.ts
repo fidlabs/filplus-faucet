@@ -17,7 +17,7 @@ export function createMessage(clientId: string) {
   const issuedAt = new Date();
   const daysToExpire = env.NEXT_PUBLIC_DAYS_TO_EXPIRE;
   const expiresAt = new Date(
-    issuedAt.getTime() + daysToExpire * 24 * 60 * 60 * 1000
+    issuedAt.getTime() + daysToExpire * 24 * 60 * 60 * 1000,
   );
 
   return {
