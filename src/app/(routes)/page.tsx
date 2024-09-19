@@ -136,6 +136,7 @@ export default function Home() {
         }
       );
 
+      await getLastAllocation();
       setError(false);
       setModalMessage("New allocation has been created!");
       setStep(0);
