@@ -44,7 +44,7 @@ export default function Home() {
   >(null);
 
   const [isValidAllocation, setIsValidAllocation] = useState<boolean | null>(
-    null
+    null,
   );
 
   const minScore = env.NEXT_PUBLIC_SCORE_THRESHOLD;
@@ -63,7 +63,7 @@ export default function Home() {
 
   const getLastAllocation = async () => {
     const result = await apiGet(
-      `${env.NEXT_PUBLIC_BACKEND_API_URL}/autoallocator/last_client_allocation?evm_wallet_address=${walletAddress}`
+      `${env.NEXT_PUBLIC_BACKEND_API_URL}/autoallocator/last_client_allocation?evm_wallet_address=${walletAddress}`,
     );
 
     if (result) {
@@ -102,7 +102,7 @@ export default function Home() {
       } catch (error) {
         console.error(
           `Error while getting last allocation for ${walletAddress}`,
-          error
+          error,
         );
         setIsValidAllocation(null);
         setLastAllocationTimestamp(null);
@@ -133,7 +133,7 @@ export default function Home() {
         {
           message,
           signature,
-        }
+        },
       );
 
       await getLastAllocation();
