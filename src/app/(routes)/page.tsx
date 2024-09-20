@@ -21,12 +21,13 @@ import { signTypedData } from "@wagmi/core";
 import { useState } from "react";
 import { useAccount } from "wagmi";
 import { useWagmiConfig } from "../wagmiConfig";
+import SimplerSpinner from "@/components/ui/simpleSpinner";
 
 export default function Home() {
   const [modalMessage, setModalMessage] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
   const [error, setError] = useState(false);
-  const { setLoading } = useLoading();
+  const { loading, setLoading } = useLoading();
   const isClient = useIsClient();
 
   const {
@@ -229,9 +230,11 @@ export default function Home() {
             </>
           )}
 
-          {step === 3 && isConnected && !isValidAllocation && (
+          {step === 3 && isConnected && !isValidAllocation && !loading && (
             <FileCoinAddressAccept handleClick={handleFilecoinAccept} />
           )}
+
+          {loading && <SimplerSpinner />}
         </div>
       </main>
       {modalMessage != null && (
