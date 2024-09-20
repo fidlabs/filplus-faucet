@@ -9,7 +9,7 @@ const LoginContent = () => {
   return (
     <>
       <p className="text-base text-center"></p>
-      <p>To do so, you&apos;ll have to follow these steps:</p>
+      <p>To receive 64GiB of DataCap automatically, please follow these steps:</p>
       <br />
       <ul className="list-disc list-inside">
         <li className="mb-2">
