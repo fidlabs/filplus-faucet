@@ -128,7 +128,7 @@ export default function Home() {
 
       const filecoinTypes = createFilecoinTypes();
       const domain = createDomain(chain?.id, "1");
-      const message = createMessage(filecoinAddress);
+      const message = createMessage(_filecoinAddress);
 
       const signature = await signTypedData(wagmiConfig, {
         account: walletAddress,
