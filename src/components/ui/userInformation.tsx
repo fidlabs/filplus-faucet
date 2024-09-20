@@ -59,9 +59,9 @@ const UserInformation: FC<{
       </div>
       {
         <>
-          <div className="mb-2">
-            The last allocation date:{" "}
-            {lastAllocationDate && (
+          {lastAllocationDate && (
+            <div className="mb-2">
+              The last allocation date:{" "}
               <>
                 <span>
                   {lastAllocationDate.toLocaleString("en-GB", {
@@ -71,21 +71,11 @@ const UserInformation: FC<{
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: false,
-                  })}{" "}
-                </span>
-                <span
-                  className={
-                    isValidAllocation ? "text-green-600" : "text-red-600"
-                  }
-                >
-                  ({isValidAllocation ? "Valid" : "Invalid"})
+                  })}
                 </span>
               </>
-            )}
-            {!lastAllocationDate && (
-              <span className="text-red-600">not exist</span>
-            )}
-          </div>
+            </div>
+          )}
           {isValidAllocation && currentAllocationExpireDate && (
             <div>
               Current allocation will expire at:{" "}

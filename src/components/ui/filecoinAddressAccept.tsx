@@ -8,13 +8,21 @@ const FileCoinAddressAccept: FC<{
   handleClick: (filecoinAddress: string) => void;
 }> = ({ handleClick }) => {
   const [value, setValue] = useState<string>("");
+  const [disabled, setDisabled] = useState<boolean>(true);
 
   const onClick = () => {
     handleClick(value);
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+    const value = event.target.value;
+
+    if (value.length) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+    setValue(value);
   };
 
   return (
@@ -23,7 +31,7 @@ const FileCoinAddressAccept: FC<{
         {`Please enter you're Filcoin Address:`}
       </p>
       <Input className="mb-2" type="text" value={value} onChange={onChange} />
-      <Button className="mx-auto" onClick={onClick}>
+      <Button className="mx-auto" onClick={onClick} disabled={disabled}>
         Confirm address
       </Button>
     </div>

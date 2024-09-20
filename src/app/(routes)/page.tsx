@@ -115,6 +115,16 @@ export default function Home() {
     setLoading(true);
 
     try {
+      const _filecoinAddress = filecoinAddress.trim();
+
+      if (!_filecoinAddress.length) {
+        setError(true);
+        handleError("Filecoin address is empty, please enter the value");
+        return;
+      }
+
+      setError(false);
+
       const filecoinTypes = createFilecoinTypes();
       const domain = createDomain(chain?.id, "1");
       const message = createMessage(filecoinAddress);
@@ -137,7 +147,6 @@ export default function Home() {
       );
 
       await getLastAllocation();
-      setError(false);
       setModalMessage("New allocation has been created!");
       setStep(0);
     } catch (error: any) {
