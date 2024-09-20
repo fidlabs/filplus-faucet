@@ -33,8 +33,8 @@ const UserInformation: FC<{
     new Date(lastAllocationTimestamp + allocationExpDays * 24 * 60 * 60 * 1000);
 
   return (
-    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-4/5">
-      <p className="block text-gray-700 font-bold mb-2 text-lg text-center ">
+    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-full md:w-4/5">
+      <p className="block text-gray-700 font-bold mb-2 text-lg text-center">
         User Information:
       </p>
       <div className="mb-2">
@@ -59,9 +59,9 @@ const UserInformation: FC<{
       </div>
       {
         <>
-          <div className="mb-2">
-            The last allocation date:{" "}
-            {lastAllocationDate && (
+          {lastAllocationDate && (
+            <div className="mb-2">
+              The last allocation date:{" "}
               <>
                 <span>
                   {lastAllocationDate.toLocaleString("en-GB", {
@@ -71,24 +71,14 @@ const UserInformation: FC<{
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: false,
-                  })}{" "}
-                </span>
-                <span
-                  className={
-                    isValidAllocation ? "text-green-600" : "text-red-600"
-                  }
-                >
-                  ({isValidAllocation ? "Valid" : "Invalid"})
+                  })}
                 </span>
               </>
-            )}
-            {!lastAllocationDate && (
-              <span className="text-red-600">not exist</span>
-            )}
-          </div>
+            </div>
+          )}
           {isValidAllocation && currentAllocationExpireDate && (
             <div>
-              Current allocation will expire at:{" "}
+              The next allocation will be available on:{" "}
               <span className="text-red-600">
                 {currentAllocationExpireDate.toLocaleString("en-GB", {
                   day: "2-digit",

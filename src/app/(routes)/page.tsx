@@ -21,12 +21,13 @@ import { signTypedData } from "@wagmi/core";
 import { useState } from "react";
 import { useAccount } from "wagmi";
 import { useWagmiConfig } from "../wagmiConfig";
+import SimplerSpinner from "@/components/ui/simpleSpinner";
 
 export default function Home() {
   const [modalMessage, setModalMessage] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
   const [error, setError] = useState(false);
-  const { setLoading } = useLoading();
+  const { loading, setLoading } = useLoading();
   const isClient = useIsClient();
 
   const {
@@ -44,7 +45,7 @@ export default function Home() {
   >(null);
 
   const [isValidAllocation, setIsValidAllocation] = useState<boolean | null>(
-    null
+    null,
   );
 
   const minScore = env.NEXT_PUBLIC_SCORE_THRESHOLD;
@@ -63,7 +64,7 @@ export default function Home() {
 
   const getLastAllocation = async () => {
     const result = await apiGet(
-      `${env.NEXT_PUBLIC_BACKEND_API_URL}/autoallocator/last_client_allocation?evm_wallet_address=${walletAddress}`
+      `${env.NEXT_PUBLIC_BACKEND_API_URL}/autoallocator/last_client_allocation?evm_wallet_address=${walletAddress}`,
     );
 
     if (result) {
@@ -102,7 +103,7 @@ export default function Home() {
       } catch (error) {
         console.error(
           `Error while getting last allocation for ${walletAddress}`,
-          error
+          error,
         );
         setIsValidAllocation(null);
         setLastAllocationTimestamp(null);
@@ -115,9 +116,19 @@ export default function Home() {
     setLoading(true);
 
     try {
+      const _filecoinAddress = filecoinAddress.trim();
+
+      if (!_filecoinAddress.length) {
+        setError(true);
+        handleError("Filecoin address is empty, please enter the value");
+        return;
+      }
+
+      setError(false);
+
       const filecoinTypes = createFilecoinTypes();
       const domain = createDomain(chain?.id, "1");
-      const message = createMessage(filecoinAddress);
+      const message = createMessage(_filecoinAddress);
 
       const signature = await signTypedData(wagmiConfig, {
         account: walletAddress,
@@ -133,11 +144,10 @@ export default function Home() {
         {
           message,
           signature,
-        }
+        },
       );
 
       await getLastAllocation();
-      setError(false);
       setModalMessage("New allocation has been created!");
       setStep(0);
     } catch (error: any) {
@@ -162,8 +172,8 @@ export default function Home() {
         </Card>
       )}
 
-      <main className="flex flex-col items-center justify-between p-24">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-2/5">
+      <main className="flex flex-col items-center justify-between p-6 md:p-24 xl:p-24">
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-full xl:w-3/5">
           <p className="block text-gray-700 font-bold mb-8 text-3xl text-center">
             Welcome to Fil+ AutoAllocator
           </p>
@@ -220,9 +230,11 @@ export default function Home() {
             </>
           )}
 
-          {step === 3 && isConnected && !isValidAllocation && (
+          {step === 3 && isConnected && !isValidAllocation && !loading && (
             <FileCoinAddressAccept handleClick={handleFilecoinAccept} />
           )}
+
+          {loading && <SimplerSpinner />}
         </div>
       </main>
       {modalMessage != null && (
