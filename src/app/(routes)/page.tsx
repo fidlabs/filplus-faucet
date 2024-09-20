@@ -45,7 +45,7 @@ export default function Home() {
   >(null);
 
   const [isValidAllocation, setIsValidAllocation] = useState<boolean | null>(
-    null
+    null,
   );
 
   const minScore = env.NEXT_PUBLIC_SCORE_THRESHOLD;
@@ -64,7 +64,7 @@ export default function Home() {
 
   const getLastAllocation = async () => {
     const result = await apiGet(
-      `${env.NEXT_PUBLIC_BACKEND_API_URL}/autoallocator/last_client_allocation?evm_wallet_address=${walletAddress}`
+      `${env.NEXT_PUBLIC_BACKEND_API_URL}/autoallocator/last_client_allocation?evm_wallet_address=${walletAddress}`,
     );
 
     if (result) {
@@ -103,7 +103,7 @@ export default function Home() {
       } catch (error) {
         console.error(
           `Error while getting last allocation for ${walletAddress}`,
-          error
+          error,
         );
         setIsValidAllocation(null);
         setLastAllocationTimestamp(null);
@@ -144,7 +144,7 @@ export default function Home() {
         {
           message,
           signature,
-        }
+        },
       );
 
       await getLastAllocation();
@@ -172,8 +172,8 @@ export default function Home() {
         </Card>
       )}
 
-      <main className="flex flex-col items-center justify-between p-24">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-2/5">
+      <main className="flex flex-col items-center justify-between p-6 md:p-24 xl:p-24">
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-full xl:w-3/5">
           <p className="block text-gray-700 font-bold mb-8 text-3xl text-center">
             Welcome to Fil+ AutoAllocator
           </p>
