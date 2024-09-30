@@ -194,7 +194,7 @@ export default function Home() {
           {step === 2 && (
             <>
               <p className="mb-2 font-bold text-lg text-center">
-                Please fallow below instructions:
+                Please follow these instructions:
               </p>
               <ul className="list-disc list-inside">
                 <li className="mb-2">
