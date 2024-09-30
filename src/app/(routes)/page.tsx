@@ -191,7 +191,7 @@ export default function Home() {
               onError={scoreError}
             />
           )}
-          {step === 2 && (
+          {step === 2 && isConnected && (
             <>
               <p className="mb-2 font-bold text-lg text-center">
                 Please follow these instructions:
