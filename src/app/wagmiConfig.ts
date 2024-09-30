@@ -31,7 +31,12 @@ const useNetworkConfig = () => {
         rpc: NEXT_PUBLIC_RPC_URL,
         rpcUrls: { default: { http: [NEXT_PUBLIC_RPC_URL] } },
         chainId: NEXT_PUBLIC_CHAIN_ID,
-        explorerUrl: NEXT_PUBLIC_EXPLORER_URL,
+        blockExplorers: {
+          default: {
+            name: NEXT_PUBLIC_CHAIN_NAME,
+            url: NEXT_PUBLIC_EXPLORER_URL,
+          }
+        }
       },
     }),
     [
