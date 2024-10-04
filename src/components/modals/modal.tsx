@@ -14,7 +14,7 @@ export const Modal: React.FC<ModalProps> = ({ message, onClose, error }) => {
           <h2 className="text-xl font-bold mb-4">
             {error === true ? "Error" : "Success!"}
           </h2>
-          <p>{message}</p>
+          <p className="first-letter:uppercase">{message}</p>
         </div>
 
         <div className="mt-4 flex justify-center">

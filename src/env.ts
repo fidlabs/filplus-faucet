@@ -26,6 +26,10 @@ export const env = createEnv({
     NEXT_PUBLIC_SCORE_THRESHOLD: z.number().multipleOf(0.001).default(30),
     NEXT_PUBLIC_WALLET_CONNECT_ID: z.string().default("1234567890"),
     NEXT_PUBLIC_LAST_ALLOCATION_EXP_DAYS: z.number().default(14),
+    NEXT_PUBLIC_GLIF_URL: z
+      .string()
+      .url()
+      .default("https://api.node.glif.io/rpc/v1"),
   },
 
   runtimeEnv: {
@@ -57,5 +61,6 @@ export const env = createEnv({
       .NEXT_PUBLIC_LAST_ALLOCATION_EXP_DAYS
       ? parseInt(process.env.NEXT_PUBLIC_LAST_ALLOCATION_EXP_DAYS)
       : undefined,
+    NEXT_PUBLIC_GLIF_URL: process.env.NEXT_PUBLIC_GLIF_URL || undefined,
   },
 });

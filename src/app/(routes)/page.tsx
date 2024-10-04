@@ -22,6 +22,7 @@ import { useState } from "react";
 import { useAccount } from "wagmi";
 import { useWagmiConfig } from "../wagmiConfig";
 import SimplerSpinner from "@/components/ui/simpleSpinner";
+import { checkIfActorExists } from "@/lib/glifApi";
 
 export default function Home() {
   const [modalMessage, setModalMessage] = useState<string | null>(null);
@@ -114,7 +115,6 @@ export default function Home() {
 
   const handleFilecoinAccept = async (filecoinAddress: string) => {
     setLoading(true);
-
     try {
       const _filecoinAddress = filecoinAddress.trim();
 
@@ -124,12 +124,19 @@ export default function Home() {
         return;
       }
 
+      let actor = await checkIfActorExists(_filecoinAddress);
+      if (!actor) {
+        setError(true);
+        const errorMessage =
+          "Actor not found. Please add some funds to verify the address on the chain";
+        console.error(errorMessage);
+        handleError(errorMessage);
+        return;
+      }
       setError(false);
-
       const filecoinTypes = createFilecoinTypes();
       const domain = createDomain(chain?.id, "1");
       const message = createMessage(_filecoinAddress);
-
       const signature = await signTypedData(wagmiConfig, {
         account: walletAddress,
         connector,
