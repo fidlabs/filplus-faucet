@@ -7,7 +7,6 @@ import FileCoinAddressAccept from "@/components/ui/filecoinAddressAccept";
 import LoginContent from "@/components/ui/loginContent";
 import UserInformation from "@/components/ui/userInformation";
 import { env } from "@/env";
-import { useApi } from "@/hooks";
 import useIsClient from "@/lib/hooks/useIsClient";
 import { useLoading } from "@/lib/providers/loading.provider.client";
 import useCheckAllowance from "@/lib/hooks/useCheckAllowance";
@@ -25,6 +24,7 @@ import { useWagmiConfig } from "../wagmiConfig";
 import SimplerSpinner from "@/components/ui/simpleSpinner";
 import { checkIfActorExists } from "@/lib/glifApi";
 import InsufficientAllowance from "@/components/ui/insufficientAllowance";
+import { apiPost, apiGet } from "@/lib/httpClient";
 
 export default function Home() {
   const [modalMessage, setModalMessage] = useState<string | null>(null);
@@ -41,7 +41,6 @@ export default function Home() {
   } = useAccount();
   const [step, setStep] = useState<number>(0);
   const wagmiConfig = useWagmiConfig();
-  const { apiPost, apiGet } = useApi();
 
   const [lastAllocationTimestamp, setLastAllocationTimestamp] = useState<
     number | null

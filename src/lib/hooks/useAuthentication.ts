@@ -1,10 +1,7 @@
 import { useMemo, useState } from "react";
 import { IUser } from "@/lib/interfaces/user.interface";
-import { useApi } from "@/lib/hooks/useApi";
 
 export const useAuthentication = () => {
-  const { apiGet, apiPost } = useApi();
-
   const [user, setUser] = useState<IUser | undefined>(undefined);
 
   const login = async (email: string, password: string) => {};
