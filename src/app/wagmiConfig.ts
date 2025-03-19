@@ -35,8 +35,8 @@ const useNetworkConfig = () => {
           default: {
             name: NEXT_PUBLIC_CHAIN_NAME,
             url: NEXT_PUBLIC_EXPLORER_URL,
-          }
-        }
+          },
+        },
       },
     }),
     [

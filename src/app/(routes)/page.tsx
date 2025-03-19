@@ -7,9 +7,9 @@ import FileCoinAddressAccept from "@/components/ui/filecoinAddressAccept";
 import LoginContent from "@/components/ui/loginContent";
 import UserInformation from "@/components/ui/userInformation";
 import { env } from "@/env";
-import { useApi } from "@/hooks";
 import useIsClient from "@/lib/hooks/useIsClient";
 import { useLoading } from "@/lib/providers/loading.provider.client";
+import useCheckAllowance from "@/lib/hooks/useCheckAllowance";
 import {
   createDomain,
   createFilecoinTypes,
@@ -23,6 +23,8 @@ import { useAccount } from "wagmi";
 import { useWagmiConfig } from "../wagmiConfig";
 import SimplerSpinner from "@/components/ui/simpleSpinner";
 import { checkIfActorExists } from "@/lib/glifApi";
+import InsufficientAllowance from "@/components/ui/insufficientAllowance";
+import { apiPost, apiGet } from "@/lib/httpClient";
 
 export default function Home() {
   const [modalMessage, setModalMessage] = useState<string | null>(null);
@@ -39,7 +41,6 @@ export default function Home() {
   } = useAccount();
   const [step, setStep] = useState<number>(0);
   const wagmiConfig = useWagmiConfig();
-  const { apiPost, apiGet } = useApi();
 
   const [lastAllocationTimestamp, setLastAllocationTimestamp] = useState<
     number | null
@@ -62,6 +63,8 @@ export default function Home() {
     setError(true);
     setModalMessage(message);
   };
+
+  const { isAllowanceSufficient, checkingAllowance } = useCheckAllowance();
 
   const getLastAllocation = async () => {
     const result = await apiGet(
@@ -178,26 +181,39 @@ export default function Home() {
           <ConnectButton showBalance={false} />
         </Card>
       )}
-
+      {checkingAllowance && isClient && isConnected && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-20">
+          <SimplerSpinner />
+        </div>
+      )}
       <main className="flex flex-col items-center justify-between p-6 md:p-24 xl:p-24">
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-full xl:w-3/5">
           <p className="block text-gray-700 font-bold mb-8 text-3xl text-center">
             Welcome to Fil+ AutoAllocator
           </p>
-          {!isClient && <CheckingWallet />}
+
+          {!isClient && isConnected && !checkingAllowance && <CheckingWallet />}
 
           {isClient && !isConnected && <LoginContent />}
 
-          {isClient && walletAddress && isConnected && (
-            <UserInformation
-              walletAddress={walletAddress}
-              score={score}
-              isValidAllocation={isValidAllocation}
-              lastAllocationTimestamp={lastAllocationTimestamp}
-              setScore={handleScore}
-              onError={scoreError}
-            />
-          )}
+          {isClient &&
+            isConnected &&
+            !isAllowanceSufficient &&
+            !checkingAllowance && <InsufficientAllowance />}
+
+          {isClient &&
+            walletAddress &&
+            isConnected &&
+            isAllowanceSufficient && (
+              <UserInformation
+                walletAddress={walletAddress}
+                score={score}
+                isValidAllocation={isValidAllocation}
+                lastAllocationTimestamp={lastAllocationTimestamp}
+                setScore={handleScore}
+                onError={scoreError}
+              />
+            )}
           {step === 2 && isConnected && (
             <>
               <p className="mb-2 font-bold text-lg text-center">
