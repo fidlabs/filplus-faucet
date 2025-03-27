@@ -30,6 +30,8 @@ export const env = createEnv({
       .string()
       .url()
       .default("https://api.node.glif.io/rpc/v1"),
+    NEXT_PUBLIC_GA_ID: z.string(),
+    NEXT_PUBLIC_GSV_ID: z.string(),
   },
 
   runtimeEnv: {
@@ -62,5 +64,7 @@ export const env = createEnv({
       ? parseInt(process.env.NEXT_PUBLIC_LAST_ALLOCATION_EXP_DAYS)
       : undefined,
     NEXT_PUBLIC_GLIF_URL: process.env.NEXT_PUBLIC_GLIF_URL || undefined,
+    NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID || undefined,
+    NEXT_PUBLIC_GSV_ID: process.env.NEXT_PUBLIC_GSV_ID || undefined,
   },
 });
