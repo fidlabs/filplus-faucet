@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Filecoin Plus DataCap Faucet | Get 1 TiB of Free DataCap Instantly",
-  description: " Get 1 TiB free DataCap instantly with the Filecoin Plus DataCap Faucet. Easily request and receive DataCap to store verified data on the Filecoin network.",
+  description: "Get 1 TiB free DataCap instantly with the Filecoin Plus DataCap Faucet. Easily request and receive DataCap to store verified data on the Filecoin network.",
 };
 
 export default function RootLayout({
