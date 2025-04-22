@@ -11,8 +11,8 @@ import { env } from "@/env";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Fil+ AutoAllocator",
-  description: "filplus auto allocator app",
+  title: "Filecoin Plus DataCap Faucet | Get 1 TiB of Free DataCap Instantly",
+  description: "Get 1 TiB free DataCap instantly with the Filecoin Plus DataCap Faucet. Easily request and receive DataCap to store verified data on the Filecoin network.",
 };
 
 export default function RootLayout({
