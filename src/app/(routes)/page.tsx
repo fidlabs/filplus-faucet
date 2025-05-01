@@ -186,11 +186,9 @@ export default function Home() {
           <SimplerSpinner />
         </div>
       )}
-      <main className="flex flex-col items-center justify-between p-6 md:p-24 xl:p-24">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-center w-full xl:w-3/5">
-          <p className="block text-gray-700 font-bold mb-8 text-3xl text-center">
-            Welcome to Fil+ AutoAllocator
-          </p>
+      <main className="flex flex-col px-6 py-12 items-center w-full max-w-4xl mx-auto space-y-16">
+          <h1 className="text-blue-600 font-bold text-4xl text-center">Filecoin Plus DataCap Faucet</h1>
+
 
           {!isClient && isConnected && !checkingAllowance && <CheckingWallet />}
 
@@ -257,8 +255,7 @@ export default function Home() {
             <FileCoinAddressAccept handleClick={handleFilecoinAccept} />
           )}
 
-          {loading && <SimplerSpinner />}
-        </div>
+          {loading && <SimplerSpinner />} 
       </main>
       {modalMessage != null && (
         <Modal
@@ -267,6 +264,6 @@ export default function Home() {
           error={error}
         />
       )}
-    </>
+    </> 
   );
 }
