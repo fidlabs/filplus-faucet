@@ -83,7 +83,6 @@ const LoginContent = () => {
         <ul className='grid grid-cols-1 md:grid-cols-2 gap-5'>
           <CheckmarkListItem>Developers building applications</CheckmarkListItem>
           <CheckmarkListItem>Content creators looking to store and distribute digital assets</CheckmarkListItem>
-          <CheckmarkListItem>Researchers working with large datasets</CheckmarkListItem>
           <CheckmarkListItem>Organizations exploring decentralized storage options</CheckmarkListItem>
         </ul>
       </Section>
