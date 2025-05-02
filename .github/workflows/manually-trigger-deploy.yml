@@ -1,16 +1,16 @@
 name: Manually trigger deploy to staging or production
-run-name: 'Manually deploy ${{ github.ref_name }} triggered by ${{ github.actor }}; version: ${{ inputs.version }}'
+run-name: "Manually deploy ${{ github.ref_name }} triggered by ${{ github.actor }}; version: ${{ inputs.version }}"
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Enter the version number'
+        description: "Enter the version number"
         required: true
-        default: 'main'
+        default: "main"
       environment:
         required: false
-        description: 'Select the environment to deploy to'
+        description: "Select the environment to deploy to"
         type: choice
         options:
           - staging
@@ -34,7 +34,7 @@ jobs:
       version: ${{ inputs.version }}
       environment: staging
       secrets-environment: staging-fidl
-      ecr-repository: filplus-registry
+      ecr-repository: filplus-auto-allocator
     secrets: inherit
 
   # TODO: uncomment this when we want to deploy to production
@@ -49,5 +49,5 @@ jobs:
   #     version: ${{ inputs.version }}
   #     environment: ${{ inputs.environment }}
   #     secrets-environment: production-fidl
-  #     ecr-repository: filplus-registry
+  #     ecr-repository: filplus-auto-allocator
   #   secrets: inherit
