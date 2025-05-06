@@ -134,11 +134,7 @@ jobs:
   trigger-staging-deploy:
     runs-on: ubuntu-latest
     environment: staging-fidl
-    if: |
-      ${{ inputs.version != '' && inputs.deploy == true && inputs.environment == 'staging' }} &&
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled')
+    if: ${{ inputs.version != '' && inputs.deploy == true && inputs.environment == 'staging' }}
     steps:
       - name: Trigger staging deploy
         uses: neti-filplus-infra/filplus-deploy-action@main
