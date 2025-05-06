@@ -13,7 +13,6 @@ on:
         description: "Enter the version number"
         required: true
         default: "latest"
-
       deploy:
         description: "Deploy the new version?"
         required: false
@@ -134,6 +133,7 @@ jobs:
   #         git push origin $TAG_NAME
   trigger-staging-deploy:
     runs-on: ubuntu-latest
+    environment: staging-fidl
     if: |
       ${{ inputs.version != '' && inputs.deploy == true && inputs.environment == 'staging' }} &&
       always() &&
