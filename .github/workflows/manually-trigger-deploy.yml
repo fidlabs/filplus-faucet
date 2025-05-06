@@ -38,3 +38,19 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_IMAGE_DEPLOYER }}
           aws-region: us-east-1
           secrets-environment: staging-fidl
+
+  trigger-production-deploy:
+    runs-on: ubuntu-latest
+    environment: production-fidl
+    if: ${{ inputs.version != '' && inputs.deploy == true && inputs.environment == 'production' }}
+    steps:
+      - name: Trigger production deploy
+        uses: neti-filplus-infra/filplus-deploy-action@main
+        with:
+          version: ${{ inputs.version }}-production-fidl
+          environment: production
+          ecr-repository: filplus-auto-allocator
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_IMAGE_DEPLOYER }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_IMAGE_DEPLOYER }}
+          aws-region: us-east-1
+          secrets-environment: production-fidl
