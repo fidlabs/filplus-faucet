@@ -151,7 +151,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_IMAGE_DEPLOYER }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_IMAGE_DEPLOYER }}
           aws-region: us-east-1
-          secrets-environment: staging-fidl
 
   trigger-production-deploy:
     runs-on: ubuntu-latest
@@ -172,4 +171,3 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_IMAGE_DEPLOYER }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_IMAGE_DEPLOYER }}
           aws-region: us-east-1
-          secrets-environment: production-fidl
