@@ -24,30 +24,17 @@ permissions:
 
 jobs:
   trigger-staging-deploy:
-    uses: ./.github/workflows/put-ssm-version-deploy.yml
-    if: |
-      ${{ inputs.version != '' && inputs.environment == 'staging' }} &&
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled')
-    with:
-      version: ${{ inputs.version }}
-      environment: staging
-      secrets-environment: staging-fidl
-      ecr-repository: filplus-auto-allocator
-    secrets: inherit
-
-  # TODO: uncomment this when we want to deploy to production
-  # trigger-production-deploy:
-  #   uses: ./.github/workflows/put-ssm-version-deploy.yml
-  #   if: |
-  #     ${{ inputs.version != '' && inputs.environment == 'production' }} &&
-  #     always() &&
-  #     !contains(needs.*.result, 'failure') &&
-  #     !contains(needs.*.result, 'cancelled')
-  #   with:
-  #     version: ${{ inputs.version }}
-  #     environment: ${{ inputs.environment }}
-  #     secrets-environment: production-fidl
-  #     ecr-repository: filplus-auto-allocator
-  #   secrets: inherit
+    runs-on: ubuntu-latest
+    environment: staging-fidl
+    if: ${{ inputs.version != '' && inputs.deploy == true && inputs.environment == 'staging' }}
+    steps:
+      - name: Trigger staging deploy
+        uses: neti-filplus-infra/filplus-deploy-action@main
+        with:
+          version: ${{ inputs.version }}-staging-fidl
+          environment: staging
+          ecr-repository: filplus-auto-allocator
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_IMAGE_DEPLOYER }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_IMAGE_DEPLOYER }}
+          aws-region: us-east-1
+          secrets-environment: staging-fidl
