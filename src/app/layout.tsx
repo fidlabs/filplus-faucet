@@ -7,12 +7,14 @@ import { Suspense } from "react";
 import { LoadingProvider } from "@/lib/providers/loading.provider.client";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { env } from "@/env";
+import PlausibleProvider from "next-plausible";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Filecoin Plus DataCap Faucet | Get 1 TiB of Free DataCap Instantly",
-  description: "Get 1 TiB free DataCap instantly with the Filecoin Plus DataCap Faucet. Easily request and receive DataCap to store verified data on the Filecoin network.",
+  description:
+    "Get 1 TiB free DataCap instantly with the Filecoin Plus DataCap Faucet. Easily request and receive DataCap to store verified data on the Filecoin network.",
 };
 
 export default function RootLayout({
@@ -30,16 +32,18 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <Suspense>
-          <ModalProvider>
-            <LoadingProvider>
-              <div className="flex flex-col">
-                <GoogleAnalytics gaId={env.NEXT_PUBLIC_GA_ID} />
-                <Providers>{children}</Providers>
-              </div>
-            </LoadingProvider>
-          </ModalProvider>
-        </Suspense>
+        <PlausibleProvider domain="faucet.allocator.tech" trackOutboundLinks>
+          <Suspense>
+            <ModalProvider>
+              <LoadingProvider>
+                <div className="flex flex-col">
+                  <GoogleAnalytics gaId={env.NEXT_PUBLIC_GA_ID} />
+                  <Providers>{children}</Providers>
+                </div>
+              </LoadingProvider>
+            </ModalProvider>
+          </Suspense>
+        </PlausibleProvider>
       </body>
     </html>
   );
