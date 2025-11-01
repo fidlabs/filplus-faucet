@@ -22,7 +22,7 @@ jobs:
           fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: 18
 
