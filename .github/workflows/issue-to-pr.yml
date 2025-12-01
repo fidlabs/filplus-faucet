@@ -12,7 +12,7 @@ jobs:
       BACKEND_URL: https://api.allocator.tech
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
 
       - name: Convert Issue To PR
         run: |
