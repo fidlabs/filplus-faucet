@@ -2,10 +2,11 @@
 
 import { env } from "@/env";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Section } from './section';
 import { CheckmarkListItem } from './checkmarkListItem';
-import { NumberedListItem } from './numberedListItem';
 import { ExternalLink } from './externalLink';
+import { NumberedListItem } from './numberedListItem';
+import { Section } from './section';
+import { SupportResources } from './supportResources';
 
 const LoginContent = () => {
   const scoreThreshold = env.NEXT_PUBLIC_SCORE_THRESHOLD;
@@ -29,7 +30,7 @@ const LoginContent = () => {
             </ExternalLink>
             <span> - Create and set up your digital identity passport through Gitcoin</span>
           </NumberedListItem>
-          
+
           <NumberedListItem number={2}>
             Meet the Minimum Score Requirement - Ensure your{' '}
             <ExternalLink href='https://support.gitcoin.co/gitcoin-knowledge-base/misc/explorer-passport-guide'>
@@ -102,22 +103,10 @@ const LoginContent = () => {
           )}
         </ConnectButton.Custom>
       </Section>
-      
+
       <div className='border-t'></div>
 
-      <Section header='Need Help?'>
-        <p>
-          If you encounter any issues during the DataCap allocation process or have questions about using your allocation, please visit{' '}
-          <ExternalLink href='https://docs.filecoin.io/basics/how-storage-works/filecoin-plus/'>
-            Filecoin Docs
-          </ExternalLink>
-          {' '}or join the{' '}
-          <ExternalLink href='https://filecoin.io/slack'>
-            Filecoin Slack
-          </ExternalLink>{' '}
-          for assistance from our community.
-        </p>
-      </Section>
+      <SupportResources />
     </div>
   );
 };
